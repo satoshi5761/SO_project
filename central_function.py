@@ -1,4 +1,4 @@
-import os
+import os as so
 
 class LinuxOS:
     def __init__ (self):
@@ -7,7 +7,7 @@ class LinuxOS:
         self.cd = "cd"
 
     def get_current_directories(self):
-        run_command = os.popen(self.ls_dir)
+        run_command = so.popen(self.ls_dir)
         read_command = run_command.read().rstrip()
         lst_directories = read_command.split('\n')
 
