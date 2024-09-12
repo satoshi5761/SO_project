@@ -1,6 +1,6 @@
 from central_function import LinuxOS
-import rich
-print = rich.print
+# import rich
+# print = rich.print
 
 
 # tambah util

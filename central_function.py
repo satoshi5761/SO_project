@@ -1,6 +1,6 @@
 import os as so
-import rich
-print = rich.print
+# import rich
+# print = rich.print
 
 class LinuxOS:
     def __init__ (self):
