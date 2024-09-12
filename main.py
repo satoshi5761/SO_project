@@ -1,10 +1,13 @@
 from central_function import LinuxOS
+import rich
+print = rich.print
 
-# tambahkan utility masing-masing
+
+# tambah util
 nama_utilities = (
     "show current path",
     "display directories",
-
+    "change directory",
 
     "QUIT"
 )
@@ -45,6 +48,8 @@ def main():
             UBUNTU.show_current_path()
         elif pilihan_utility == 2:
             print(UBUNTU.get_available_directories())
+        elif pilihan_utility == 3:
+            UBUNTU.change_directory(input("directory tujuan: "))
         else:
             Mahastama = False
 

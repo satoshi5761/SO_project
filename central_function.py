@@ -1,8 +1,9 @@
 import os as so
+import rich
+print = rich.print
 
 class LinuxOS:
     def __init__ (self):
-        # list of necessary Linux commands
 
         # menangkap semua directory di 
         # path saat ini
@@ -10,6 +11,8 @@ class LinuxOS:
 
         # menampilkan path saat ini
         self.pwd = "pwd"
+
+
 
     def show_current_path(self):
         """
@@ -23,17 +26,26 @@ class LinuxOS:
     def get_available_directories(self):
         """
         return semua directory pada working directory jika ada
-        return empty [] jika tidak ada
+        return None jika tidak ada
         """
         run_command = so.popen(self.ls_dir)
         read_command = run_command.read().rstrip()
         lst_directories = read_command.split('\n')
 
         if ''.join(lst_directories) == "":
-            return []
+            return None
         else:
             return lst_directories
 
     
-    def change_directory(self):
-        
+    def change_directory(self, target_directory):
+        """
+        pindah dari directory saat ini
+        ke directory target
+        """
+        try:
+            so.chdir(target_directory)
+        except:
+            print("/directory tujuan tidak ada")
+
+    
