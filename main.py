@@ -1,13 +1,14 @@
 from central_function import LinuxOS
+from ASCII_tree import solve
 # import rich
 # print = rich.print
 
 
 # tambah util
 nama_utilities = (
-    "show current path",
-    "display directories",
-    "change directory",
+    "Show current path",
+    "Display directories",
+    "Change directory",
 
     "QUIT"
 )
@@ -32,7 +33,7 @@ def display_utilities():
 def main():
 
     UBUNTU = LinuxOS()
-
+    solve(UBUNTU, 0)
 
     Mahastama = True
     while Mahastama:
