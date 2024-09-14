@@ -1,5 +1,8 @@
 from central_function import LinuxOS
+<<<<<<< HEAD
 from ASCII_tree_documentation import tembelek
+=======
+>>>>>>> aea31f7 (Update main.py)
 # import rich
 # print = rich.print
 
