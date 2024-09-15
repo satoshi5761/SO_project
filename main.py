@@ -1,13 +1,14 @@
 from central_function import LinuxOS
-from ASCII_tree import solve
-# import rich
-# print = rich.print
+from ASCII_tree_documentation import solve
+import rich
+print = rich.print
 
 
 # tambah util
 nama_utilities = (
     "Show current path",
     "Display directories",
+    "Show ASCII Tree",
     "Change directory",
 
     "QUIT"
@@ -23,7 +24,30 @@ def display_utilities():
     menampilkan utilities yang tersedia
     """
     for (nomor_opsi, nama_util) in enumerate(nama_utilities):
-        print(f"Option {nomor_opsi + 1}: {nama_util}")
+        print(f"Option [{nomor_opsi + 1}]: {nama_util}")
+
+
+def utility_A(UBUNTU):
+    print(UBUNTU.get_current_path())
+
+def utility_B(UBUNTU):
+    print(UBUNTU.get_available_directories())
+
+def utility_C(UBUNTU):
+    try:
+        depth = int(input("depth (0 untuk maxdepth possible): "))
+    except:
+        depth = 0
+    solve(UBUNTU, depth)
+
+def utility_D(UBUNTU):
+    UBUNTU.change_directory(input("directory tujuan: "))
+
+def utility_Q():
+    """
+    untuk QUIT
+    """
+    return False
 
 ###########################################################################
 ###########################################################################
@@ -33,7 +57,6 @@ def display_utilities():
 def main():
 
     UBUNTU = LinuxOS()
-    solve(UBUNTU, 0)
 
     Mahastama = True
     while Mahastama:
@@ -44,15 +67,16 @@ def main():
         except:
             pilihan_utility = 0
         
-
         if pilihan_utility == 1:
-            UBUNTU.show_current_path()
+            utility_A(UBUNTU)
         elif pilihan_utility == 2:
-            print(UBUNTU.get_available_directories())
+            utility_B(UBUNTU)
         elif pilihan_utility == 3:
-            UBUNTU.change_directory(input("directory tujuan: "))
+            utility_C(UBUNTU)
+        elif pilihan_utility == 4:
+            utility_D(UBUNTU)
         else:
-            Mahastama = False
+            Mahastama = utility_Q()
 
 
         print("-" * 50)

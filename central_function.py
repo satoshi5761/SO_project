@@ -1,6 +1,4 @@
 import os as so
-# import rich
-# print = rich.print
 
 class LinuxOS:
     def __init__ (self):
@@ -12,17 +10,28 @@ class LinuxOS:
         # menampilkan path saat ini
         self.pwd = "pwd"
 
-        # menampilkan file-file di
+        # menangkap file-file di
         # path saat ini
         self.ls_file = "ls -p | grep -v /"
 
-    def show_current_path(self):
+    def get_current_path(self):
         """
-        menampilkan path directory saat ini
+        return path directory saat ini
         """
         run_command = so.popen(self.pwd)
         read_command = run_command.read().rstrip()
-        print(read_command)
+        return read_command
+
+
+    def change_directory(self, target_directory):
+        """
+        pindah dari directory saat ini
+        ke directory target
+        """
+        try:
+            so.chdir(target_directory)
+        except:
+            print("/directory tujuan tidak ada")
 
 
     def get_available_directories(self):
@@ -40,17 +49,6 @@ class LinuxOS:
             return lst_directories
 
     
-    def change_directory(self, target_directory):
-        """
-        pindah dari directory saat ini
-        ke directory target
-        """
-        try:
-            so.chdir(target_directory)
-        except:
-            print("/directory tujuan tidak ada")
-
-    
     def get_available_files(self):
         """
         return semua file-file pada working diretory jika ada
@@ -64,3 +62,5 @@ class LinuxOS:
             return []
         else:
             return lst_files
+
+    
