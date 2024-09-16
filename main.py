@@ -1,7 +1,7 @@
 from central_function import LinuxOS
 from ASCII_tree_documentation import tembelek
-# import rich
-# print = rich.print
+import rich
+print = rich.print
 
 
 # tambah util

@@ -1,5 +1,5 @@
-# import rich
-# print = rich.print
+import rich
+print = rich.print
 
 """
 menampilkan directory saat ini
@@ -38,11 +38,6 @@ rules output:
 gunakan symbol └──, jika tidak maka gunakan symbol ├──
 2. kedalaman depth diperlukan untuk menghasilkan output symbol | sebanyak (depth - 1) kali
 
-|   ├── cmake/
-|   |   └── modules/
-|   |   |   ├── ClingConfig.cmake.in
-|   |   |   └── CMakeLists.txt
-|   |   |
 """
 
 class Node:
@@ -89,38 +84,59 @@ class Node:
             directory.traverse()
 
     def pipe_edges(self, depth):
+        """
+        GAGAL, saya tidak sadar ada edge case
+        """
         panjang_space = 3
         for _ in range(depth - 1):
             print('|' + ' ' * panjang_space, end='')
 
+    def new_pipe(self, lst):
+        """
+        pembaruan, fixed edge cases
+        """
+        for x in lst:
+            if x is True:
+                print('|' + ' ' * 3, end='')
+            else:
+                print(' ' * 4, end='')
+
     def pretty_printing_directories(self, lst):
         for (i, directory) in enumerate(self.child_directories):
-            directory.pipe_edges(directory.edges)
+            directory.new_pipe(lst)
             
             if i == len(self.child_directories) - 1:
                 if not self.child_files:
                     print('└──', directory.short_name)
+                    lst.append(False)
                 else:
                     print('├──', directory.short_name)
+                    lst.append(True)
             else:
                 print('├──', directory.short_name)
+                lst.append(True)
             
             directory.pretty_printing_directories(lst)
 
-            directory.pretty_printing_files()
+            directory.pretty_printing_files(lst)
 
-    def pretty_printing_files(self):
+            lst.pop()
+
+    def pretty_printing_files(self, lst):
         if self.child_files:
             for (j, file) in enumerate(self.child_files):
-                self.pipe_edges(self.edges + 1)
+                self.new_pipe(lst)
                 if j == len(self.child_files) - 1:
                     print('└──', file)
                 else:
                     print('├──', file)
 
-            self.pipe_edges(self.edges + 1)
+            self.new_pipe(lst)
             print()
-
+        else:
+            if not self.child_directories:
+                self.new_pipe(lst)
+                print()
 
 def tembelek(UBUNTU, depth):
     if depth == 0: depth = float('inf')
@@ -134,20 +150,20 @@ def tembelek(UBUNTU, depth):
     print(root.name)
     print('|')
     root.pretty_printing_directories([])
-    root.pretty_printing_files()
+    root.pretty_printing_files([])
 
     UBUNTU.change_directory(root.name)
 
 
 """
 EDGE CASE ** belum tau **
-/home/dericdebian/cling/
+/home/dericdebian/cling
 |
 ├── build/
 |   ├── bin/
 |   ├── cmake/
 |   |   └── modules/
-|   |   |   ├── CMakeFiles/
+|   |       ├── CMakeFiles/
 |   |   |   |   ├── cling-cmake-exports.dir/
 |   |   |   |   |   ├── build.make
 |   |   |   |   |   ├── cmake_clean.cmake
@@ -159,7 +175,7 @@ EDGE CASE ** belum tau **
 |   |   |   |   ├── Export/
 |   |   |   |   |   └── 6e4c6b2ae996a7fcc4d49be11a95ee7f/
 |   |   |   |   |   |   ├── ClingTargets.cmake
-|   |   |   |   |   |   └── ClingTargets-noconfig.cmake
+|   |   |   |   |   |  └── ClingTargets-noconfig.cmake
 |   |   |   |   |   |
 |   |   |   |   ├── install-cling-cmake-exports.dir/
 |   |   |   |   |   ├── build.make
