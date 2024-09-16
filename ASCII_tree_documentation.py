@@ -139,7 +139,6 @@ def tembelek(UBUNTU, depth):
     UBUNTU.change_directory(root.name)
 
 
-
 """
 EDGE CASE ** belum tau **
 /home/dericdebian/cling/
