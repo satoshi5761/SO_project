@@ -1,5 +1,15 @@
+<<<<<<< HEAD
 import rich
 print = rich.print
+=======
+<<<<<<< HEAD
+# import rich
+# print = rich.print
+=======
+import rich
+print = rich.print
+>>>>>>> abeef2c (u)
+>>>>>>> 6497f4f (conflict)
 
 """
 menampilkan directory saat ini
@@ -11,12 +21,22 @@ example output:
 pwd/
 |
 ├── dir1/ # depth 1
+<<<<<<< HEAD
 |   └── dirdir1/ # depth 2
 |       ├── dirdirdir1 # depth 3
 |       |   ├── dirdirdirdir1 # depth 4
 |       |   |   └── x.txt # depth 5
 |       |   └── q.txt # depth 4
 |       └── q.txt # depth 3
+=======
+|   ├── dirdir1/ # depth 2
+|   |   ├── dirdirdir1 # depth 3
+|   |   |   ├── dirdirdirdir1 # depth 4
+|   |   |   |   └── x.txt # depth 5
+|   |   |   └── q.txt # 4
+|   |   └── q.txt # 3
+|   └── file1.txt # 2
+>>>>>>> abeef2c (u)
 |
 ├── dir2/ # 1
 |   └── dirdir2/ # 2
@@ -36,19 +56,35 @@ akan menghasilkan output yang sesuai
 rules output:
 1. jika node berupa children yang paling akhir maka
 gunakan symbol └──, jika tidak maka gunakan symbol ├──
+<<<<<<< HEAD
 2. kedalaman depth diperlukan untuk menghasilkan output symbol | sebanyak (depth - 1) kali
 
+<<<<<<< HEAD
+=======
+|   ├── cmake/
+|   |   └── modules/
+|   |   |   ├── ClingConfig.cmake.in
+|   |   |   └── CMakeLists.txt
+|   |   |
+=======
+2. counter kedalaman depth diperlukan untuk menghasilkan output symbol | sebanyak (depth - 1) kali
+>>>>>>> abeef2c (u)
+>>>>>>> 6497f4f (conflict)
 """
 
 class Node:
     def __init__(self, name):
         self.parent = None
         self.name = name
+<<<<<<< HEAD
         self.short_name = ""
+=======
+>>>>>>> abeef2c (u)
         self.child_directories = []
         self.child_files = []
         self.edges = 0
 
+<<<<<<< HEAD
     def build_tree(self, UBUNTU, depth, stacking):
         """
         --- input file system ---
@@ -59,12 +95,21 @@ class Node:
         if depth <= 0:
             return # berhenti sampai sini
         else:
+=======
+    def build_tree(self, UBUNTU, counter, depth, stacking):
+        if counter > depth:
+            return
+        else:
+            self.child_files = UBUNTU.get_available_files()
+            self.edges = counter
+>>>>>>> abeef2c (u)
 
             available_directories = UBUNTU.get_available_directories()
             for directory in available_directories:
                 current_Node = Node(self.name + directory)
                 self.child_directories.append(current_Node)
 
+<<<<<<< HEAD
                 current_Node.short_name = directory
 
                 current_Node.edges = len(stacking)
@@ -75,10 +120,16 @@ class Node:
                 current_Node.child_files = UBUNTU.get_available_files()
 
                 current_Node.build_tree(UBUNTU, depth - 1, stacking)
+=======
+                stacking.append(self.name + directory)
+                UBUNTU.change_directory(stacking[-1])
+                current_Node.build_tree(UBUNTU, counter + 1, depth, stacking)
+>>>>>>> abeef2c (u)
                 UBUNTU.change_directory(stacking.pop())
 
     def traverse(self):
         for directory in self.child_directories:
+<<<<<<< HEAD
             print(directory.name, directory.edges)
             print(directory.child_files)
             directory.traverse()
@@ -201,3 +252,28 @@ EDGE CASE ** belum tau **
 |   |   |   └── Makefile
 |   |   |
 """
+=======
+            print(directory.name)
+            directory.traverse()
+
+def solve(UBUNTU, depth):
+    if depth == 0: depth = float('inf')
+
+    counter = 1
+
+    root = Node(UBUNTU.get_current_path() + '/')
+    stacking = [root.name]
+    root.build_tree(UBUNTU, counter, depth, stacking)
+
+    # root.traverse()
+
+    nd = root.child_directories[1]
+    print(nd.name)
+    print(nd.edges)
+
+    # print(root.name)
+    # print('|')
+    # root.traverse()
+
+    UBUNTU.change_directory(root.name)
+>>>>>>> abeef2c (u)
