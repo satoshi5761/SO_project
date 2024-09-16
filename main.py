@@ -1,7 +1,7 @@
 from central_function import LinuxOS
-from ASCII_tree_documentation import solve
-import rich
-print = rich.print
+from ASCII_tree_documentation import tembelek
+# import rich
+# print = rich.print
 
 
 # tambah util
@@ -38,7 +38,8 @@ def utility_C(UBUNTU):
         depth = int(input("depth (0 untuk maxdepth possible): "))
     except:
         depth = 0
-    solve(UBUNTU, depth)
+
+    tembelek(UBUNTU, depth)
 
 def utility_D(UBUNTU):
     UBUNTU.change_directory(input("directory tujuan: "))
