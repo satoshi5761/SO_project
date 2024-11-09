@@ -1,4 +1,6 @@
-import os as so
+import os
+import shutil
+import tempfile
 
 class LinuxOS:
     def __init__ (self):
@@ -18,7 +20,7 @@ class LinuxOS:
         """
         return path directory saat ini
         """
-        run_command = so.popen(self.pwd)
+        run_command = os.popen(self.pwd)
         read_command = run_command.read().rstrip()
         return read_command
 
@@ -29,7 +31,7 @@ class LinuxOS:
         ke directory target
         """
         try:
-            so.chdir(target_directory)
+            os.chdir(target_directory)
         except:
             print("/directory tujuan tidak ada")
 
@@ -39,7 +41,7 @@ class LinuxOS:
         return semua directory pada working directory jika ada
         return empty [] jika tidak ada
         """
-        run_command = so.popen(self.ls_dir)
+        run_command = os.popen(self.ls_dir)
         read_command = run_command.read().rstrip()
         lst_directories = read_command.split('\n')
 
@@ -54,7 +56,7 @@ class LinuxOS:
         return semua file-file pada working diretory jika ada
         return empty [] jika tidak ada
         """
-        run_command = so.popen(self.ls_file)
+        run_command = os.popen(self.ls_file)
         read_command = run_command.read().rstrip()
         lst_files = read_command.split('\n')
 
@@ -63,4 +65,41 @@ class LinuxOS:
         else:
             return lst_files
 
-    
+
+class PenghapusSementara:
+    def __init__(self):
+        self.direktori_sementara = tempfile.gettempdir()
+        self.jumlah_file_dihapus = 0
+        self.jumlah_folder_dihapus = 0
+
+    def hapus_file_di_sementara(self):
+        daftar_file = os.listdir(self.direktori_sementara)
+
+        if not daftar_file:
+            print("Tidak ada file sementara yang perlu dihapus.")
+            return
+
+        for nama_file in daftar_file:
+            jalur_file = os.path.join(self.direktori_sementara, nama_file)
+            try:
+                if os.path.isfile(jalur_file) or os.path.islink(jalur_file):
+                    os.unlink(jalur_file)
+                    self.jumlah_file_dihapus += 1
+                elif os.path.isdir(jalur_file):
+                    shutil.rmtree(jalur_file)
+                    self.jumlah_folder_dihapus += 1
+            except Exception as e:
+                print(f"Gagal menghapus {jalur_file}. Alasan: {e}")
+
+        print(f"\nJumlah file yang dihapus: {self.jumlah_file_dihapus}")
+        print(f"Jumlah folder yang dihapus: {self.jumlah_folder_dihapus}")
+
+    def hapus_file_sementara(self):
+        print(f"Lokasi folder sementara: {self.direktori_sementara}")
+        
+        konfirmasi = input(f"Apakah Anda yakin ingin menghapus semua file di {self.direktori_sementara}? (y/n): ").lower()
+        if konfirmasi == 'y':
+            self.hapus_file_di_sementara()
+            print("Penghapusan file sementara selesai.")
+        else:
+            print("Penghapusan dibatalkan.")

@@ -1,5 +1,5 @@
-import rich
-print = rich.print
+# import rich
+# print = rich.print
 
 """
 menampilkan directory saat ini
