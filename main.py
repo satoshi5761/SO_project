@@ -1,4 +1,4 @@
-from central_function import LinuxOS, PenghapusSementara
+from central_function import LinuxOS, PenghapusSementara, Search_and_Sort_Files
 from ASCII_tree_documentation import tembelek
 import os
 # import rich
@@ -11,13 +11,15 @@ if os.name == 'posix':
     nama_utilities = (
         "Show current path",
         "Display directories",
-        "Show ASCII Tree",
         "Change directory",
+        "Show ASCII Tree",
+        "Search and Sort Files"
         "QUIT"
     )
 elif os.name == 'nt':
     nama_utilities = (
         "Hapus File Sementara",
+        "Search and Sort Files"
     )
 
 ###########################################################################
@@ -48,6 +50,10 @@ def utility_C(UBUNTU):
 
 def utility_D(UBUNTU):
     UBUNTU.change_directory(input("directory tujuan: "))
+
+def utility_E():
+    SSF = Search_and_Sort_Files()
+    SSF.run()
 
 def utility_Q():
     """
@@ -80,15 +86,19 @@ def main():
             elif pilihan_utility == 2:
                 utility_B(UBUNTU)
             elif pilihan_utility == 3:
-                utility_C(UBUNTU)
-            elif pilihan_utility == 4:
                 utility_D(UBUNTU)
+            elif pilihan_utility == 4:
+                utility_C(UBUNTU)
+            elif pilihan_utility == 5:
+                utility_E()
             else:
                 Mahastama = utility_Q()
 
         elif os.name == 'nt':
             if pilihan_utility == 1:
                 penghapus.hapus_file_sementara()
+            elif pilihan_utility == 2:
+                utility_E()
             else:
                 Mahastama = utility_Q()
 
