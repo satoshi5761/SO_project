@@ -2,6 +2,7 @@ import os
 import shutil
 import tempfile
 from pathlib import Path
+import datetime
 
 
 class LinuxOS:
@@ -162,3 +163,39 @@ class Search_and_Sort_Files:
         print("\nFile Anda:")
         for file in sorted_files:
             print(f"- {file} (Size: {file.stat().st_size} bytes, Diedit pada: {file.stat().st_mtime})")
+
+
+
+
+
+class BackUp_Files:
+    def backup_data(self, source_dir, backup_dir):
+        if not os.path.exists(source_dir):
+            print(f"Direktori'{source_dir}' tidak ditemukan!")
+            return
+
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        backup_path = os.path.join(backup_dir, f"backup_{timestamp}")
+
+        try:
+            shutil.copytree(source_dir, backup_path)
+            print(f"Backup '{source_dir}' dibuat di '{backup_path}'")
+        except Exception as e:
+            print(f"Terjadi error: {e}!")
+
+    def select_directory(self, title):
+        directory = input(title)
+        return directory
+
+    def run(self):
+        source_directory = self.select_directory("Pilih direktori asal yang akan di backup: ")
+        if not source_directory:
+            print("Tidak ada direktori asal yang dipilih. Selesai.")
+            exit()
+
+        backup_directory = self.select_directory("Pilih direktori untuk backup: ")
+        if not backup_directory:
+            print("Tidak ada direktori backup yang dipilih. Selesai.")
+            exit()
+
+        self.backup_data(source_directory, backup_directory)
